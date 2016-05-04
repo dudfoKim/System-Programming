@@ -1,0 +1,506 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@ * @;
+
+
+1.1
+date	2006.11.20.23.56.19;	author a200502392;	state Exp;
+branches;
+next	;
+
+
+desc
+@q
+@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@/*
+ * mm-naive.c - The fastest, least memory-efficient malloc package.
+ *
+ * In this naive approach, a block is allocated by simply incrementing
+ * the brk pointer.  Blocks are never coalesced or reused.  The size of
+ * a block is found at the first aligned word before the block (we need
+ * it for realloc).
+ *
+ * This code is correct and blazingly fast, but very bad usage-wise since
+ * it never frees anything.
+ */
+#include <assert.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
+#include <dlfcn.h>
+
+#include "mm.h"
+#include "memlib.h"
+
+/* If you want debugging output, use the following macro.  When you hand
+ * in, remove the #define DEBUG line. */
+#define DEBUG
+#ifdef DEBUG
+# define dbg_printf(...) printf(__VA_ARGS__)
+#else
+
+# define dbg_printf(...)
+#endif
+
+
+/* do not change the following! */
+#ifdef DRIVER
+/* create aliases for driver tests */
+#define malloc mm_malloc
+#define free mm_free
+#define realloc mm_realloc
+#define calloc mm_calloc
+#endif /* def DRIVER */
+
+/* single word (4) or double word (8) alignment */
+/* rounds up to the nearest multiple of ALIGNMENT */
+#define WSIZE 4 
+#define DSIZE 8 
+#define CHUNKSIZE (1<<8)
+#define OVERHEAD 8 
+#define MAX(x,y) ((x) > (y) ? (x) : (y))
+#define PACK(size,alloc) ((size)|(alloc))
+									 
+#define GET(p)       (*(size_t *)(p))
+#define PUT(p, val)  (*(size_t *)(p) = (val))
+									 
+#define GET_SIZE(p)  (GET(p) & ~0x7)								 
+#define GET_ALLOC(p) (GET(p) & 0x1)
+
+#define HDRP(bp)       ((char *)(bp) - WSIZE)
+									 
+#define FLPB(bp)       ((char *)(bp) + 2*WSIZE)		/*프리 블럭에서 쓰임*/
+#define FLSB(bp)       ((char *)(bp) +   WSIZE)
+			
+#define FTRP(bp)       ((char *)(bp) + GET_SIZE(HDRP(bp)) - DSIZE)
+									 
+#define NEXT_BLKP(bp)  ((char *)(bp) + GET_SIZE(((char *)(bp) - WSIZE)))
+#define PREV_BLKP(bp)  ((char *)(bp) - GET_SIZE(((char *)(bp) - DSIZE)))
+									 
+#define AD(bp) ( ( (char*)bp - start)/8) 
+
+
+static char *heap_listp=NULL;
+static char *pred=NULL;
+static char *succ=NULL;
+static char *start;// = mem_sbrk(0);
+
+static void place(void *bp, size_t asize);
+static void *find_fit(size_t asize);
+static void *extend_heap(size_t words,int i);
+static void *coalesce(void *bp);
+static void print(void *bp);
+void free_sort(void *bp);
+int count = 0;
+int first = 0;
+
+/*
+ * mm_init - Called when a new trace starts.
+ */
+int mm_init(void)
+{
+	if ((heap_listp = mem_sbrk(4*WSIZE)) == NULL )
+		return -1;
+	PUT(heap_listp, 0);  
+	PUT(heap_listp+WSIZE, PACK(OVERHEAD, 1));
+	PUT(heap_listp+DSIZE, PACK(OVERHEAD, 1));
+	PUT(heap_listp+WSIZE+DSIZE, PACK(0, 1));
+	heap_listp += DSIZE;
+	start = mem_sbrk(0);
+//	pred = heap_listp;
+	/*Root에서 접근 하는 방법 이용*/
+//	if ( extend_heap(CHUNKSIZE/WSIZE,0) == NULL )	/*확장해서 가져옴*/
+//		return -1;
+	return 0;
+}
+/*
+ * malloc - Allocate a block by incrementing the brk pointer.
+ *      Always allocate a block whose size is a multiple of the alignment.
+ */
+
+void *malloc(size_t size)
+{
+	dbg_printf("\nmalloc\n");
+	dbg_printf("이 값이 0 일경우에는 프리는 존재 하지 않는다 %d\n",pred);
+	print(pred);
+	//dbg_printf("할당한 전체 값 %d\n",count);
+	size_t asize;
+	size_t extendsize;
+	char *bp;
+	if ( size <= 0 )
+		return 0;
+	if ( size <= DSIZE )
+		asize = DSIZE + OVERHEAD;
+	else
+		asize = DSIZE * (( size + (OVERHEAD) + (DSIZE-1))/DSIZE);
+	count+=asize;	
+	dbg_printf("요청 받은 asize : %d\n",asize);
+	if ( (bp = find_fit(asize))!= NULL ) 
+	{
+		dbg_printf("프리 블럭 내에 할당 크기를 넘은 공간이 존재 \n");
+		size = GET_SIZE(HDRP(bp));
+		size = size - asize;
+		place(bp,asize);
+		/*서로 쪼개짐 */
+		//만약 다른 프리 블록에 의해 연결이 되어있었다면 연결을 다시 이어 주기만 하면 끝
+		if (GET(FLSB(pred)) == NULL )
+		{
+			PUT(FLSB(NEXT_BLKP(bp)),NULL);
+			PUT(FLPB(NEXT_BLKP(bp)),&pred);
+			pred = NEXT_BLKP(bp);
+		}
+		else
+		{
+			
+			PUT(FLSB(GET(FLPB(bp))),NEXT_BLKP(bp));		//이전 노드의 넥스트를 현재로 연결 
+			PUT(FLSB(NEXT_BLKP(bp)),GET(FLSB(bp)));			//지금 노드의 다음 방향은 원래 있던 노드의 방향으로 부터 가져옴 
+			PUT(FLPB(NEXT_BLKP(bp)),GET(FLPB(bp)));			//원래 있던 노드가 가르키고 있던 이전꺼를 가르키게 함 
+			print(pred);
+		}
+			//	free_sort(NEXT_BLKP(bp));
+			PUT(HDRP(NEXT_BLKP(bp)), PACK(size, 0));
+			PUT(FTRP(NEXT_BLKP(bp)), PACK(size, 0));
+			return bp;
+	}
+	dbg_printf("프리 블럭이 없거나 프리 블럭내에 할당할 크기가 없다\n");
+	bp = extend_heap(asize,1);
+	dbg_printf("할당된것의 주소 : %d\n",AD(bp));
+	place(bp,asize);
+	return bp;
+}
+/*
+ * free - We don't know how to free a block.  So we ignore this call.
+ *      Computers have big memories; surely it won't be a problem.
+ */
+void free(void  *bp)
+{
+	if ( bp )
+	{
+	
+		dbg_printf("free\n");
+		dbg_printf("pred : %d\n",pred);
+		if ( pred != NULL )
+			dbg_printf("다음  주소 %d\n",AD(((FLSB(pred)))));
+		size_t size = GET_SIZE(HDRP(bp));
+		//count-=size;
+		dbg_printf("프리 크기 : %d\n",size);
+		PUT(HDRP(bp), PACK(size, 0));
+		PUT(FTRP(bp), PACK(size, 0));
+		
+		dbg_printf("현재 bp : %d\n",AD(bp));
+		coalesce(bp);
+		dbg_printf("free list \n");
+		print(pred);
+		dbg_printf("free list end\n");
+	}
+}
+/*
+ * realloc - Change the size of the block by mallocing a new block,
+ *      copying its data, and freeing the old block.  I'm too lazy
+ 
+ *      to do better.
+ */
+void *realloc(void *oldptr, size_t size)
+{
+  size_t oldsize;
+  void *newptr;
+  
+  // If size == 0 then this is just free, and we return NULL. 
+	if(size <=  0) {
+    free(oldptr);
+    return 0;
+  }
+  // If oldptr is NULL, then this is just malloc. 
+  if(oldptr == NULL) {
+    return malloc(size);
+  }
+
+  
+ newptr = malloc(size);
+
+  if(!newptr) {
+    return 0;
+   }
+  // Copy the old data. 
+  
+  oldsize = GET_SIZE(HDRP(oldptr));
+  if(size < oldsize) 
+	  oldsize = size;
+  memcpy(newptr, oldptr, oldsize);
+  
+  // Free the old block. 
+  free(oldptr);
+  
+  return newptr;
+  //
+}
+
+/*
+ * calloc - Allocate the block and set it to zero.
+ */
+void *calloc (size_t nmemb, size_t size)
+{
+	if ( size <= 0 || nmemb <= 0 )
+		return 0;
+	size_t tmp = nmemb + size;
+	
+	void *ptr;
+	ptr = malloc(tmp);
+	
+	if ( ptr != 0)
+		memset(ptr,0,tmp);
+	else
+		return 0;
+	return ptr;
+}
+
+/*
+ * mm_checkheap - There are no bugs in my code, so I don't need to check,
+ *      so nah!
+ */
+void mm_checkheap(int verbose)
+{
+}
+
+static void place(void *bp, size_t asize)
+{
+	size_t csize = GET_SIZE(HDRP(bp));
+	
+	if ( ( asize) >= DSIZE+OVERHEAD)//csize -  asize ) >= (DSIZE +OVERHEAD) )
+	{ /*메모리가 약간 쪼개짐*/
+		dbg_printf("\nplace\n");
+		dbg_printf("할당 크기  : %d\n\n",asize);
+		PUT(HDRP(bp),PACK(asize,1));
+		PUT(FTRP(bp),PACK(asize,1));
+	}
+}
+
+static void *find_fit(size_t asize)
+{
+	void *bp;
+	if ( pred == NULL )
+		return NULL;
+	
+	for ( bp = pred ; (bp)!=NULL  ; bp = GET(FLSB(bp)) )
+	{
+		dbg_printf("free 안에 있는 size : %d\n",GET_SIZE(HDRP(bp)));
+		if ((asize < GET_SIZE(HDRP(bp))))
+			return bp;
+	}
+	return NULL;
+}
+static void *extend_heap(size_t words,int i)
+{
+	char *bp;
+	size_t size;
+	if ( first == 0 )
+	{
+		if ((int)(bp = mem_sbrk(words+WSIZE) )<0)
+		{
+			return NULL:
+		}
+		first = 1;
+		PUT(HDRP(bp),PACK(words,0));
+		PYU(FTRP(bp),PACK(words,0));
+		PUT(HDRP(NEXT_BLKP(bp)),PACK(WSIZE,2));
+		PUT(FTRP(NEXT_BLKP(bp)),PACK(WSIZE,2));
+	}
+	else
+	{
+		if ((int)(bp = mem_sbrk(words)) < 0)
+		return NULL;
+		PUT(HDRP(bp), PACK(words-WSIZE, 0)); 
+		PUT(FTRP(bp), PACK(words-WSIZE, 0)); 
+		PUT(HDRP(NEXT_BLKP(bp)),PACK(WSIZE,2));
+		PUT(FTRP(NEXT_BLKP(bp)),PACK(WSIZE,2));
+	}
+	dbg_printf("extend_size : %d\n",GET_SIZE(HDRP(bp)));
+	dbg_printf("extral size : %d\n",GET_SIZE(HDRP(NEXT_BLKP(bp))));
+	return bp;
+}
+static void *coalesce(void *bp)
+{
+	size_t prev_alloc = GET_ALLOC(HDRP(PREV_BLKP(bp)));
+	size_t next_alloc = GET_ALLOC(HDRP(NEXT_BLKP(bp)));
+	size_t size = GET_SIZE(HDRP(bp));
+	int flag = 0;
+	dbg_printf("\ncall coalesce\n");
+	dbg_printf("bp in coalesce :%d\n",AD(bp));
+	dbg_printf("next_alloc : %d\n",next_alloc);
+	
+	if (prev_alloc && next_alloc)
+	{	//이 경우는 양쪽 모두 할당 되어있으니까 bp를 루트로 하는 구조로 한다
+		//case1 완성 
+		dbg_printf("case1\n");
+		if ( pred == NULL )		//pred에 아무 것도 없으면 프리 블럭을 새로 만든다
+		{
+			PUT(FLSB(bp),NULL);
+			PUT(FLPB(bp),&pred);
+			pred = bp;		
+		}
+		else					//이미 프리 블럭이 있으면 앞에다가 추가를 해준다. 
+		{
+			PUT(FLSB(bp),pred);
+			PUT(FLPB(bp),&pred);
+			PUT(FLPB(pred),bp);
+			pred = bp;
+		}
+		return (bp);
+	}
+	else if ( prev_alloc && !next_alloc)
+	{
+		//이 경우는 오른쪽에 위치한 SB와 PB를 옮긴다.
+		
+		dbg_printf("case2\n");
+		
+		if( AD(NEXT_BLKP(bp)) == count/8 )
+		{
+			dbg_printf("true\n");
+			flag = 1;
+		}
+		size += GET_SIZE(HDRP(NEXT_BLKP(bp)));
+		char *tmp = NEXT_BLKP(bp);
+		PUT(HDRP(bp), PACK(size, 0));
+		PUT(FTRP((bp)), PACK(size,0));
+		dbg_printf("size : %d\n\n",size);
+		if ( pred == NULL ) //처음 작업
+		{
+			PUT(FLPB(bp),&pred);
+			PUT(FLSB(bp),NULL);
+			pred = bp;
+		}
+		else if ( flag == 1 )
+		{
+			//새로운 힙을 얻어와서 확장을 시킬때
+			//하지만 없다 
+			
+
+		}
+		else
+		{
+			dbg_printf("bp : %d\n",bp);
+			dbg_printf("pred address: %d\n",&pred);
+			dbg_printf("pred : %d\n",(pred));
+			dbg_printf("다음 블럭 : %d\n",(tmp));
+			dbg_printf("다음 블럭의 블럭 %d\n",(GET((FLSB(tmp)))));
+			dbg_printf("다음 블럭의 이전 블럭 %d\n",(GET((FLPB(tmp)))));
+			
+			if ( GET((FLPB(tmp))) == &pred)
+				pred = bp;
+			else
+				PUT((FLSB(GET(FLPB(tmp)))),bp);
+			dbg_printf("pred : %d\n",pred);
+			PUT(FLSB(bp),GET(FLSB(tmp)));
+			PUT(FLPB(bp),GET(FLPB(tmp)));
+		}
+		return (bp);
+	}
+	else if (!prev_alloc && next_alloc)
+	{
+		//이경우에는 블록 설정을 할 필요 가 없다 왜냐하면 왼쪽에 위치 한거는 어떻것을 가르키므로 따라서 뭘 할필요가 없다
+		//case3 ok
+		dbg_printf("case3\n");
+	//	dbg_printf("이전 블럭 :%d\n",AD(PREV_BLKP(bp)));
+		size += GET_SIZE(HDRP(PREV_BLKP(bp)));
+		PUT(FTRP(bp), PACK(size, 0));
+		PUT(HDRP(PREV_BLKP(bp)), PACK(size, 0));
+		return  (PREV_BLKP(bp));
+	}
+	else
+	{
+		//최악의 경우로서 현재 블록의 갯수 만큼 선회해서 리스트를 다시 만들어야 함
+		//캐안습//
+		dbg_printf("case4\n");
+		dbg_printf("size 1 : %d\n",GET_SIZE(HDRP(PREV_BLKP(bp))));
+		dbg_printf("bp : %d\n",AD(bp));
+		dbg_printf("bp : %d\n",AD(NEXT_BLKP(bp)));
+		dbg_printf("size 2 : %d\n",GET_SIZE(FTRP(NEXT_BLKP(bp))));
+		dbg_printf("size : %d\n",size);
+		if ( AD(NEXT_BLKP(bp)) == count/8 )//|| (size + GET_SIZE(HDRP(PREV_BLKP(bp)) +GET_SIZE(FTRP(NEXT_BLKP(bp))))) < count )
+		{
+			dbg_printf("true\n");
+			size += GET_SIZE(HDRP(PREV_BLKP(bp)));
+			flag = 1;
+		}
+		else if ( size == GET_SIZE(FTRP(NEXT_BLKP(bp))))
+		{
+			size +=GET_SIZE(HDRP(PREV_BLKP(bp)));
+			flag = 1;
+		}
+		else
+			size += GET_SIZE(HDRP(PREV_BLKP(bp))) + GET_SIZE(FTRP(NEXT_BLKP(bp)));
+		if ( flag == 1 )
+		{	
+			PUT(FTRP(bp),PACK(size,0));
+			PUT(HDRP(PREV_BLKP(bp)),PACK(size,0));
+			return PREV_BLKP(bp);
+		}
+					
+			
+		PUT(HDRP(PREV_BLKP(bp)), PACK(size, 0));
+		PUT(FTRP(NEXT_BLKP(bp)), PACK(size, 0));
+		dbg_printf("size : %d\n\n",size);
+		
+//		PUT(FLSB(PREV_BLKP(bp)),NULL);
+//		PUT(FLPB(PREV_BLKP(bp)),&pred);
+//		pred = PREV_BLKP(bp);
+//		free_sort(bp);
+		return  (PREV_BLKP(bp));
+	}
+}
+static void print(void *bp)
+{
+	if ( bp != NULL  )
+	{
+		dbg_printf("%d\n",AD(bp));
+		print( GET(FLSB(bp)) );
+	}
+}	
+
+void free_sort(void *bp)
+{
+	dbg_printf("free_sort\n");
+	void *tmp = start;
+	void *tmp2 = NEXT_BLKP(start);
+	void *k;
+	dbg_printf("start : %d\n",AD(start));
+	dbg_printf("start next : %d\n",AD(NEXT_BLKP(start)));
+	dbg_printf("start next next : %d\n",AD(NEXT_BLKP(NEXT_BLKP(start))));
+	PUT(FLPB(tmp),&pred);
+	while ( AD(tmp) != 282)
+	{
+		k = FLSB(tmp);
+		dbg_printf("ad : %d\n",AD(tmp));
+		if ( count/8 == AD(tmp2) )
+		{
+			PUT(FLSB(tmp),NULL);	
+			pred = tmp;
+			return ;
+		}
+	
+		if ( GET_ALLOC(tmp2) == 0 ) //다음 블록이 프리 인 경우
+		{
+			PUT(FLSB(tmp),tmp2);
+			PUT(FLPB(tmp2),tmp);
+		}
+		tmp = NEXT_BLKP((tmp));
+		tmp2 = NEXT_BLKP(tmp2);
+		
+	}
+	dbg_printf("k %d\n",AD(k));
+	PUT(FLSB(k),NULL);
+	dbg_printf("next k %d\n",AD(GET(FLSB(k))));
+	
+	dbg_printf("sort end\n");
+}
+@

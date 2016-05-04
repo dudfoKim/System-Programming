@@ -1,0 +1,109 @@
+Measuring performance with a cycle counter.
+Processor clock rate ~= 755.7 MHz
+
+Results for mm malloc:
+   valid  util   ops    secs     Kops  trace
+   yes    93%      10  0.000002  4371 ././traces/malloc.rep
+ 1         0%       0  0.000000     0
+
+Perf index = 0 (util) + 0 (thru) = 0/100
+Measuring performance with a cycle counter.
+Processor clock rate ~= 755.7 MHz
+
+Results for mm malloc:
+   valid  util   ops    secs     Kops  trace
+   yes    96%      17  0.000003  5885 ././traces/malloc-free.rep
+ 1         0%       0  0.000000     0
+
+Perf index = 0 (util) + 0 (thru) = 0/100
+Measuring performance with a cycle counter.
+Processor clock rate ~= 755.7 MHz
+
+Results for mm malloc:
+   valid  util   ops    secs     Kops  trace
+   yes   100%      15  0.000004  4192 ././traces/corners.rep
+ 1         0%       0  0.000000     0
+
+Perf index = 0 (util) + 0 (thru) = 0/100
+Measuring performance with a cycle counter.
+Processor clock rate ~= 755.7 MHz
+
+Results for mm malloc:
+   valid  util   ops    secs     Kops  trace
+ * yes    86%    1494  0.000302  4946 ././traces/perl.rep
+ 1        86%    1494  0.000302  4946
+
+Perf index = 56 (util) + 40 (thru) = 96/100
+Measuring performance with a cycle counter.
+Processor clock rate ~= 755.7 MHz
+
+Results for mm malloc:
+   valid  util   ops    secs     Kops  trace
+ * yes    87%     118  0.000020  5897 ././traces/hostname.rep
+ 1        87%     118  0.000020  5897
+
+Perf index = 56 (util) + 40 (thru) = 96/100
+Measuring performance with a cycle counter.
+Processor clock rate ~= 755.7 MHz
+
+Results for mm malloc:
+   valid  util   ops    secs     Kops  trace
+ * yes    91%   11913  0.003278  3634 ././traces/xterm.rep
+ 1        91%   11913  0.003278  3634
+
+Perf index = 59 (util) + 40 (thru) = 99/100
+Measuring performance with a cycle counter.
+Processor clock rate ~= 755.7 MHz
+
+Results for mm malloc:
+   valid  util   ops    secs     Kops  trace
+ * yes    94%    5694  0.001082  5263 ././traces/amptjp-bal.rep
+ 1        94%    5694  0.001082  5263
+
+Perf index = 60 (util) + 40 (thru) = 100/100
+Measuring performance with a cycle counter.
+Processor clock rate ~= 755.7 MHz
+
+Results for mm malloc:
+   valid  util   ops    secs     Kops  trace
+ * yes    94%    5848  0.001012  5781 ././traces/cccp-bal.rep
+ 1        94%    5848  0.001012  5781
+
+Perf index = 60 (util) + 40 (thru) = 100/100
+Measuring performance with a cycle counter.
+Processor clock rate ~= 755.7 MHz
+
+Results for mm malloc:
+   valid  util   ops    secs     Kops  trace
+ * yes    96%    6648  0.001654  4019 ././traces/cp-decl-bal.rep
+ 1        96%    6648  0.001654  4019
+
+Perf index = 60 (util) + 40 (thru) = 100/100
+Measuring performance with a cycle counter.
+Processor clock rate ~= 755.7 MHz
+
+Results for mm malloc:
+   valid  util   ops    secs     Kops  trace
+ * yes    97%    5380  0.001196  4498 ././traces/expr-bal.rep
+ 1        97%    5380  0.001196  4498
+
+Perf index = 60 (util) + 40 (thru) = 100/100
+Using default tracefiles in ./traces/
+Measuring performance with a cycle counter.
+Processor clock rate ~= 755.7 MHz
+
+Results for mm malloc:
+   valid  util   ops    secs     Kops  trace
+   yes    93%      10  0.000002  4333 ./traces/malloc.rep
+   yes    96%      17  0.000003  5901 ./traces/malloc-free.rep
+   yes   100%      15  0.000004  4137 ./traces/corners.rep
+ * yes    86%    1494  0.000302  4942 ./traces/perl.rep
+ * yes    87%     118  0.000020  5945 ./traces/hostname.rep
+ * yes    91%   11913  0.003181  3746 ./traces/xterm.rep
+ * yes    94%    5694  0.001150  4951 ./traces/amptjp-bal.rep
+ * yes    94%    5848  0.001063  5499 ./traces/cccp-bal.rep
+ * yes    96%    6648  0.001664  3996 ./traces/cp-decl-bal.rep
+ * yes    97%    5380  0.001203  4472 ./traces/expr-bal.rep
+ 7        92%   37095  0.008583  4322
+
+Perf index = 59 (util) + 40 (thru) = 99/100

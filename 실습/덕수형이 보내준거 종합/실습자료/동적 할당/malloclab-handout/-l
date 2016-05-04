@@ -1,0 +1,784 @@
+Using default tracefiles in ./traces/
+Measuring performance with a cycle counter.
+Processor clock rate ~= 755.7 MHz
+
+curr_alloc 0
+
+size : 4096
+prev_alloc 1
+next_alloc 1
+next : (nil)
+first address : 0x805d6b0
+first size : 4096
+bp value : 0x805d6b0
+bp next : (nil)
+size : 4096
+asize : 40
+size ? 4056
+alloc ? 0
+size 2 ? 40
+alloc 2 ? 1
+bp value : 0x805d6d8
+bp next : 0x93a6a4b0
+size : 4056
+asize : 32
+size ? 4024
+alloc ? 0
+size 2 ? 32
+alloc 2 ? 1
+bp value : 0x805d6f8
+bp next : 0xc470dfa3
+size : 4024
+asize : 40
+size ? 3984
+alloc ? 0
+size 2 ? 40
+alloc 2 ? 1
+bp value : 0x805d720
+bp next : 0x7c5f16a0
+size : 3984
+asize : 72
+size ? 3912
+alloc ? 0
+size 2 ? 72
+alloc 2 ? 1
+bp value : 0x805d768
+bp next : 0x34a475c8
+size : 3912
+asize : 136
+size ? 3776
+alloc ? 0
+size 2 ? 136
+alloc 2 ? 1
+bp value : 0x805d7f0
+bp next : 0x86166d65
+size : 3776
+asize : 1032
+size ? 2744
+alloc ? 0
+size 2 ? 1032
+alloc 2 ? 1
+bp value : 0x805dbf8
+bp next : 0x5b594421
+size : 2744
+asize : 40
+size ? 2704
+alloc ? 0
+size 2 ? 40
+alloc 2 ? 1
+bp value : 0x805dc20
+bp next : 0x27132d4f
+size : 2704
+asize : 32
+size ? 2672
+alloc ? 0
+size 2 ? 32
+alloc 2 ? 1
+bp value : 0x805dc40
+bp next : (nil)
+size : 2672
+asize : 32
+size ? 2640
+alloc ? 0
+size 2 ? 32
+alloc 2 ? 1
+bp value : 0x805dc60
+bp next : (nil)
+size : 2640
+asize : 32
+size ? 2608
+alloc ? 0
+size 2 ? 32
+alloc 2 ? 1
+
+curr_alloc 0
+
+size : 4096
+prev_alloc 1
+next_alloc 1
+next : (nil)
+first address : 0x805d6b0
+first size : 4096
+bp value : 0x805d6b0
+bp next : (nil)
+size : 4096
+asize : 40
+size ? 4056
+alloc ? 0
+size 2 ? 40
+alloc 2 ? 1
+bp value : 0x805d6d8
+bp next : (nil)
+size : 4056
+asize : 32
+size ? 4024
+alloc ? 0
+size 2 ? 32
+alloc 2 ? 1
+bp value : 0x805d6f8
+bp next : (nil)
+size : 4024
+asize : 40
+size ? 3984
+alloc ? 0
+size 2 ? 40
+alloc 2 ? 1
+bp value : 0x805d720
+bp next : (nil)
+size : 3984
+asize : 72
+size ? 3912
+alloc ? 0
+size 2 ? 72
+alloc 2 ? 1
+bp value : 0x805d768
+bp next : (nil)
+size : 3912
+asize : 136
+size ? 3776
+alloc ? 0
+size 2 ? 136
+alloc 2 ? 1
+bp value : 0x805d7f0
+bp next : (nil)
+size : 3776
+asize : 1032
+size ? 2744
+alloc ? 0
+size 2 ? 1032
+alloc 2 ? 1
+bp value : 0x805dbf8
+bp next : (nil)
+size : 2744
+asize : 40
+size ? 2704
+alloc ? 0
+size 2 ? 40
+alloc 2 ? 1
+bp value : 0x805dc20
+bp next : (nil)
+size : 2704
+asize : 32
+size ? 2672
+alloc ? 0
+size 2 ? 32
+alloc 2 ? 1
+bp value : 0x805dc40
+bp next : (nil)
+size : 2672
+asize : 32
+size ? 2640
+alloc ? 0
+size 2 ? 32
+alloc 2 ? 1
+bp value : 0x805dc60
+bp next : (nil)
+size : 2640
+asize : 32
+size ? 2608
+alloc ? 0
+size 2 ? 32
+alloc 2 ? 1
+
+curr_alloc 0
+
+size : 4096
+prev_alloc 1
+next_alloc 1
+next : (nil)
+first address : 0x805d6b0
+first size : 4096
+bp value : 0x805d6b0
+bp next : (nil)
+size : 4096
+asize : 40
+size ? 4056
+alloc ? 0
+size 2 ? 40
+alloc 2 ? 1
+bp value : 0x805d6d8
+bp next : (nil)
+size : 4056
+asize : 32
+size ? 4024
+alloc ? 0
+size 2 ? 32
+alloc 2 ? 1
+bp value : 0x805d6f8
+bp next : (nil)
+size : 4024
+asize : 40
+size ? 3984
+alloc ? 0
+size 2 ? 40
+alloc 2 ? 1
+bp value : 0x805d720
+bp next : (nil)
+size : 3984
+asize : 72
+size ? 3912
+alloc ? 0
+size 2 ? 72
+alloc 2 ? 1
+bp value : 0x805d768
+bp next : (nil)
+size : 3912
+asize : 136
+size ? 3776
+alloc ? 0
+size 2 ? 136
+alloc 2 ? 1
+bp value : 0x805d7f0
+bp next : (nil)
+size : 3776
+asize : 1032
+size ? 2744
+alloc ? 0
+size 2 ? 1032
+alloc 2 ? 1
+bp value : 0x805dbf8
+bp next : (nil)
+size : 2744
+asize : 40
+size ? 2704
+alloc ? 0
+size 2 ? 40
+alloc 2 ? 1
+bp value : 0x805dc20
+bp next : (nil)
+size : 2704
+asize : 32
+size ? 2672
+alloc ? 0
+size 2 ? 32
+alloc 2 ? 1
+bp value : 0x805dc40
+bp next : (nil)
+size : 2672
+asize : 32
+size ? 2640
+alloc ? 0
+size 2 ? 32
+alloc 2 ? 1
+bp value : 0x805dc60
+bp next : (nil)
+size : 2640
+asize : 32
+size ? 2608
+alloc ? 0
+size 2 ? 32
+alloc 2 ? 1
+
+curr_alloc 0
+
+size : 4096
+prev_alloc 1
+next_alloc 1
+next : (nil)
+first address : 0x805d6b0
+first size : 4096
+bp value : 0x805d6b0
+bp next : (nil)
+size : 4096
+asize : 40
+size ? 4056
+alloc ? 0
+size 2 ? 40
+alloc 2 ? 1
+bp value : 0x805d6d8
+bp next : (nil)
+size : 4056
+asize : 32
+size ? 4024
+alloc ? 0
+size 2 ? 32
+alloc 2 ? 1
+bp value : 0x805d6f8
+bp next : (nil)
+size : 4024
+asize : 40
+size ? 3984
+alloc ? 0
+size 2 ? 40
+alloc 2 ? 1
+bp value : 0x805d720
+bp next : (nil)
+size : 3984
+asize : 72
+size ? 3912
+alloc ? 0
+size 2 ? 72
+alloc 2 ? 1
+bp value : 0x805d768
+bp next : (nil)
+size : 3912
+asize : 136
+size ? 3776
+alloc ? 0
+size 2 ? 136
+alloc 2 ? 1
+bp value : 0x805d7f0
+bp next : (nil)
+size : 3776
+asize : 1032
+size ? 2744
+alloc ? 0
+size 2 ? 1032
+alloc 2 ? 1
+bp value : 0x805dbf8
+bp next : (nil)
+size : 2744
+asize : 40
+size ? 2704
+alloc ? 0
+size 2 ? 40
+alloc 2 ? 1
+bp value : 0x805dc20
+bp next : (nil)
+size : 2704
+asize : 32
+size ? 2672
+alloc ? 0
+size 2 ? 32
+alloc 2 ? 1
+bp value : 0x805dc40
+bp next : (nil)
+size : 2672
+asize : 32
+size ? 2640
+alloc ? 0
+size 2 ? 32
+alloc 2 ? 1
+bp value : 0x805dc60
+bp next : (nil)
+size : 2640
+asize : 32
+size ? 2608
+alloc ? 0
+size 2 ? 32
+alloc 2 ? 1
+
+curr_alloc 0
+
+size : 4096
+prev_alloc 1
+next_alloc 1
+next : (nil)
+first address : 0x805d6b0
+first size : 4096
+bp value : 0x805d6b0
+bp next : (nil)
+size : 4096
+asize : 40
+size ? 4056
+alloc ? 0
+size 2 ? 40
+alloc 2 ? 1
+bp value : 0x805d6d8
+bp next : (nil)
+size : 4056
+asize : 32
+size ? 4024
+alloc ? 0
+size 2 ? 32
+alloc 2 ? 1
+bp value : 0x805d6f8
+bp next : (nil)
+size : 4024
+asize : 40
+size ? 3984
+alloc ? 0
+size 2 ? 40
+alloc 2 ? 1
+bp value : 0x805d720
+bp next : (nil)
+size : 3984
+asize : 72
+size ? 3912
+alloc ? 0
+size 2 ? 72
+alloc 2 ? 1
+bp value : 0x805d768
+bp next : (nil)
+size : 3912
+asize : 136
+size ? 3776
+alloc ? 0
+size 2 ? 136
+alloc 2 ? 1
+bp value : 0x805d7f0
+bp next : (nil)
+size : 3776
+asize : 1032
+size ? 2744
+alloc ? 0
+size 2 ? 1032
+alloc 2 ? 1
+bp value : 0x805dbf8
+bp next : (nil)
+size : 2744
+asize : 40
+size ? 2704
+alloc ? 0
+size 2 ? 40
+alloc 2 ? 1
+bp value : 0x805dc20
+bp next : (nil)
+size : 2704
+asize : 32
+size ? 2672
+alloc ? 0
+size 2 ? 32
+alloc 2 ? 1
+bp value : 0x805dc40
+bp next : (nil)
+size : 2672
+asize : 32
+size ? 2640
+alloc ? 0
+size 2 ? 32
+alloc 2 ? 1
+bp value : 0x805dc60
+bp next : (nil)
+size : 2640
+asize : 32
+size ? 2608
+alloc ? 0
+size 2 ? 32
+alloc 2 ? 1
+
+curr_alloc 0
+
+size : 4096
+prev_alloc 1
+next_alloc 1
+next : (nil)
+first address : 0x805d6b0
+first size : 4096
+bp value : 0x805d6b0
+bp next : (nil)
+size : 4096
+asize : 40
+size ? 4056
+alloc ? 0
+size 2 ? 40
+alloc 2 ? 1
+bp value : 0x805d6d8
+bp next : (nil)
+size : 4056
+asize : 32
+size ? 4024
+alloc ? 0
+size 2 ? 32
+alloc 2 ? 1
+bp value : 0x805d6f8
+bp next : (nil)
+size : 4024
+asize : 40
+size ? 3984
+alloc ? 0
+size 2 ? 40
+alloc 2 ? 1
+bp value : 0x805d720
+bp next : (nil)
+size : 3984
+asize : 72
+size ? 3912
+alloc ? 0
+size 2 ? 72
+alloc 2 ? 1
+bp value : 0x805d768
+bp next : (nil)
+size : 3912
+asize : 136
+size ? 3776
+alloc ? 0
+size 2 ? 136
+alloc 2 ? 1
+bp value : 0x805d7f0
+bp next : (nil)
+size : 3776
+asize : 1032
+size ? 2744
+alloc ? 0
+size 2 ? 1032
+alloc 2 ? 1
+bp value : 0x805dbf8
+bp next : (nil)
+size : 2744
+asize : 40
+size ? 2704
+alloc ? 0
+size 2 ? 40
+alloc 2 ? 1
+bp value : 0x805dc20
+bp next : (nil)
+size : 2704
+asize : 32
+size ? 2672
+alloc ? 0
+size 2 ? 32
+alloc 2 ? 1
+bp value : 0x805dc40
+bp next : (nil)
+size : 2672
+asize : 32
+size ? 2640
+alloc ? 0
+size 2 ? 32
+alloc 2 ? 1
+bp value : 0x805dc60
+bp next : (nil)
+size : 2640
+asize : 32
+size ? 2608
+alloc ? 0
+size 2 ? 32
+alloc 2 ? 1
+
+curr_alloc 0
+
+size : 4096
+prev_alloc 1
+next_alloc 1
+next : (nil)
+first address : 0x805d6b0
+first size : 4096
+bp value : 0x805d6b0
+bp next : (nil)
+size : 4096
+asize : 40
+size ? 4056
+alloc ? 0
+size 2 ? 40
+alloc 2 ? 1
+bp value : 0x805d6d8
+bp next : (nil)
+size : 4056
+asize : 32
+size ? 4024
+alloc ? 0
+size 2 ? 32
+alloc 2 ? 1
+bp value : 0x805d6f8
+bp next : (nil)
+size : 4024
+asize : 40
+size ? 3984
+alloc ? 0
+size 2 ? 40
+alloc 2 ? 1
+bp value : 0x805d720
+bp next : (nil)
+size : 3984
+asize : 72
+size ? 3912
+alloc ? 0
+size 2 ? 72
+alloc 2 ? 1
+bp value : 0x805d768
+bp next : (nil)
+size : 3912
+asize : 136
+size ? 3776
+alloc ? 0
+size 2 ? 136
+alloc 2 ? 1
+bp value : 0x805d7f0
+bp next : (nil)
+size : 3776
+asize : 1032
+size ? 2744
+alloc ? 0
+size 2 ? 1032
+alloc 2 ? 1
+bp value : 0x805dbf8
+bp next : (nil)
+size : 2744
+asize : 40
+size ? 2704
+alloc ? 0
+size 2 ? 40
+alloc 2 ? 1
+bp value : 0x805dc20
+bp next : (nil)
+size : 2704
+asize : 32
+size ? 2672
+alloc ? 0
+size 2 ? 32
+alloc 2 ? 1
+bp value : 0x805dc40
+bp next : (nil)
+size : 2672
+asize : 32
+size ? 2640
+alloc ? 0
+size 2 ? 32
+alloc 2 ? 1
+bp value : 0x805dc60
+bp next : (nil)
+size : 2640
+asize : 32
+size ? 2608
+alloc ? 0
+size 2 ? 32
+alloc 2 ? 1
+
+curr_alloc 0
+
+size : 4096
+prev_alloc 1
+next_alloc 1
+next : (nil)
+first address : 0x805d6b0
+first size : 4096
+bp value : 0x805d6b0
+bp next : (nil)
+size : 4096
+asize : 40
+size ? 4056
+alloc ? 0
+size 2 ? 40
+alloc 2 ? 1
+bp value : 0x805d6d8
+bp next : (nil)
+size : 4056
+asize : 32
+size ? 4024
+alloc ? 0
+size 2 ? 32
+alloc 2 ? 1
+bp value : 0x805d6f8
+bp next : (nil)
+size : 4024
+asize : 40
+size ? 3984
+alloc ? 0
+size 2 ? 40
+alloc 2 ? 1
+bp value : 0x805d720
+bp next : (nil)
+size : 3984
+asize : 72
+size ? 3912
+alloc ? 0
+size 2 ? 72
+alloc 2 ? 1
+bp value : 0x805d768
+bp next : (nil)
+size : 3912
+asize : 136
+size ? 3776
+alloc ? 0
+size 2 ? 136
+alloc 2 ? 1
+bp value : 0x805d7f0
+bp next : (nil)
+size : 3776
+asize : 1032
+size ? 2744
+alloc ? 0
+size 2 ? 1032
+alloc 2 ? 1
+bp value : 0x805dbf8
+bp next : (nil)
+size : 2744
+asize : 40
+size ? 2704
+alloc ? 0
+size 2 ? 40
+alloc 2 ? 1
+bp value : 0x805dc20
+bp next : (nil)
+size : 2704
+asize : 32
+size ? 2672
+alloc ? 0
+size 2 ? 32
+alloc 2 ? 1
+bp value : 0x805dc40
+bp next : (nil)
+size : 2672
+asize : 32
+size ? 2640
+alloc ? 0
+size 2 ? 32
+alloc 2 ? 1
+bp value : 0x805dc60
+bp next : (nil)
+size : 2640
+asize : 32
+size ? 2608
+alloc ? 0
+size 2 ? 32
+alloc 2 ? 1
+
+curr_alloc 0
+
+size : 4096
+prev_alloc 1
+next_alloc 1
+next : (nil)
+first address : 0x805d6b0
+first size : 4096
+bp value : 0x805d6b0
+bp next : (nil)
+size : 4096
+asize : 40
+size ? 4056
+alloc ? 0
+size 2 ? 40
+alloc 2 ? 1
+bp value : 0x805d6d8
+bp next : 0x89f524ea
+size : 4056
+asize : 40
+size ? 4016
+alloc ? 0
+size 2 ? 40
+alloc 2 ? 1
+bp value : 0x805d700
+bp next : 0x9b1e71c7
+size : 4016
+asize : 40
+size ? 3976
+alloc ? 0
+size 2 ? 40
+alloc 2 ? 1
+bp value : 0x805d728
+bp next : 0x77c9a23f
+size : 3976
+asize : 72
+size ? 3904
+alloc ? 0
+size 2 ? 72
+alloc 2 ? 1
+bp value : 0x805d770
+bp next : 0xb4be0194
+size : 3904
+asize : 136
+size ? 3768
+alloc ? 0
+size 2 ? 136
+alloc 2 ? 1
+bp value : 0x805d7f8
+bp next : 0x8f7fe16d
+size : 3768
+asize : 1032
+size ? 2736
+alloc ? 0
+size 2 ? 1032
+alloc 2 ? 1
+bp value : 0x805dc00
+bp next : 0x6d30505f
+size : 2736
+asize : 40
+size ? 2696
+alloc ? 0
+size 2 ? 40
+alloc 2 ? 1
+
+free size : 136
+free
+size 1 : 136

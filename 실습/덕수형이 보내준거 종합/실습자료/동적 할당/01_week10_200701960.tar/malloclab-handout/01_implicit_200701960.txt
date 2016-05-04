@@ -1,0 +1,22 @@
+Using default tracefiles in ./traces/
+Measuring performance with a cycle counter.
+Processor clock rate ~= 3000.4 MHz
+
+Results for mm malloc:
+   valid  util   ops    secs     Kops  trace
+   yes    34%      10  0.000001  7419 ./traces/malloc.rep
+   yes    28%      17  0.000001 13831 ./traces/malloc-free.rep
+   yes    96%      15  0.000002  9801 ./traces/corners.rep
+ * yes    86%    1494  0.002391   625 ./traces/perl.rep
+ * yes    75%     118  0.000014  8149 ./traces/hostname.rep
+ * yes    91%   11913  0.119899    99 ./traces/xterm.rep
+ * yes    99%    5694  0.021632   263 ./traces/amptjp-bal.rep
+ * yes    99%    5848  0.019637   298 ./traces/cccp-bal.rep
+ * yes    99%    6648  0.033568   198 ./traces/cp-decl-bal.rep
+ * yes   100%    5380  0.026029   207 ./traces/expr-bal.rep
+ * yes    66%   14400  0.000341 42248 ./traces/coalescing-bal.rep
+ * yes    93%    4800  0.019714   243 ./traces/random-bal.rep
+ * yes    55%    6000  0.050610   119 ./traces/binary-bal.rep
+10        86%   62295  0.293834   212
+
+Perf index = 56 (util) + 8 (thru) = 64/100
